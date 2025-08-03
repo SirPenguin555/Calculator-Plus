@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator+ | Advanced Mathematical Calculator</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1 class="title">Calculator+</h1>
+      <div class="mode-selector">
+        <button class="mode-btn active" data-mode="basic">Basic</button>
+        <button class="mode-btn" data-mode="scientific">Scientific</button>
+        <button class="mode-btn" data-mode="algebra">Algebra</button>
+        <button class="mode-btn" data-mode="geometry">Geometry</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="calculator-container">
+        <!-- Display Section -->
+        <div class="display-section">
+          <div class="expression-display" id="expression">0</div>
+          <div class="result-display" id="result"></div>
+          <div class="error-display" id="error" style="display: none;"></div>
+        </div>
+
+        <!-- Input Section -->
+        <div class="input-section">
+          <input type="text" 
+                 class="text-input" 
+                 id="textInput" 
+                 placeholder="Enter expression (e.g., 2x + 3 = 7, sin(30°), area circle r=5)"
+                 autocomplete="off">
+          <button class="calculate-btn" id="calculateBtn">Calculate</button>
+        </div>
+
+        <!-- Button Grid -->
+        <div class="button-grid" id="buttonGrid">
+          <!-- Basic Mode Buttons -->
+          <div class="button-set basic-buttons active">
+            <button class="btn btn-clear" data-action="clear">C</button>
+            <button class="btn btn-clear-entry" data-action="clear-entry">CE</button>
+            <button class="btn btn-backspace" data-action="backspace">⌫</button>
+            <button class="btn btn-operator" data-value="/">÷</button>
+            
+            <button class="btn btn-number" data-value="7">7</button>
+            <button class="btn btn-number" data-value="8">8</button>
+            <button class="btn btn-number" data-value="9">9</button>
+            <button class="btn btn-operator" data-value="*">×</button>
+            
+            <button class="btn btn-number" data-value="4">4</button>
+            <button class="btn btn-number" data-value="5">5</button>
+            <button class="btn btn-number" data-value="6">6</button>
+            <button class="btn btn-operator" data-value="-">−</button>
+            
+            <button class="btn btn-number" data-value="1">1</button>
+            <button class="btn btn-number" data-value="2">2</button>
+            <button class="btn btn-number" data-value="3">3</button>
+            <button class="btn btn-operator" data-value="+">+</button>
+            
+            <button class="btn btn-number" data-value="0">0</button>
+            <button class="btn btn-decimal" data-value=".">.</button>
+            <button class="btn btn-parentheses" data-value="(">(</button>
+            <button class="btn btn-parentheses" data-value=")">)</button>
+            
+            <button class="btn btn-equals" data-action="equals">=</button>
+            <button class="btn btn-function" data-value="sqrt(">√</button>
+            <button class="btn btn-function" data-value="^">x²</button>
+            <button class="btn btn-function" data-value="%">%</button>
+          </div>
+
+          <!-- Scientific Mode Buttons -->
+          <div class="button-set scientific-buttons">
+            <button class="btn btn-function" data-value="sin(">sin</button>
+            <button class="btn btn-function" data-value="cos(">cos</button>
+            <button class="btn btn-function" data-value="tan(">tan</button>
+            <button class="btn btn-function" data-value="log(">log</button>
+            
+            <button class="btn btn-function" data-value="ln(">ln</button>
+            <button class="btn btn-function" data-value="exp(">e^x</button>
+            <button class="btn btn-constant" data-value="π">π</button>
+            <button class="btn btn-constant" data-value="e">e</button>
+            
+            <button class="btn btn-function" data-value="asin(">sin⁻¹</button>
+            <button class="btn btn-function" data-value="acos(">cos⁻¹</button>
+            <button class="btn btn-function" data-value="atan(">tan⁻¹</button>
+            <button class="btn btn-function" data-value="factorial(">n!</button>
+            
+            <button class="btn btn-function" data-value="abs(">|x|</button>
+            <button class="btn btn-function" data-value="floor(">⌊x⌋</button>
+            <button class="btn btn-function" data-value="ceil(">⌈x⌉</button>
+            <button class="btn btn-function" data-value="round(">round</button>
+          </div>
+
+          <!-- Algebra Mode Buttons -->
+          <div class="button-set algebra-buttons">
+            <button class="btn btn-variable" data-value="x">x</button>
+            <button class="btn btn-variable" data-value="y">y</button>
+            <button class="btn btn-variable" data-value="z">z</button>
+            <button class="btn btn-operator" data-value="=">=</button>
+            
+            <button class="btn btn-function" data-value="solve(">solve</button>
+            <button class="btn btn-function" data-value="expand(">expand</button>
+            <button class="btn btn-function" data-value="factor(">factor</button>
+            <button class="btn btn-function" data-value="simplify(">simplify</button>
+            
+            <button class="btn btn-function" data-value="derivative(">d/dx</button>
+            <button class="btn btn-function" data-value="integral(">∫</button>
+            <button class="btn btn-operator" data-value="^">^</button>
+            <button class="btn btn-function" data-value="root(">ⁿ√</button>
+          </div>
+
+          <!-- Geometry Mode Buttons -->
+          <div class="button-set geometry-buttons">
+            <button class="btn btn-geo" data-template="area circle r=">Circle Area</button>
+            <button class="btn btn-geo" data-template="area triangle a= b= c=">Triangle Area</button>
+            <button class="btn btn-geo" data-template="area rectangle l= w=">Rectangle Area</button>
+            <button class="btn btn-geo" data-template="volume sphere r=">Sphere Volume</button>
+            
+            <button class="btn btn-geo" data-template="perimeter circle r=">Circle Perimeter</button>
+            <button class="btn btn-geo" data-template="perimeter triangle a= b= c=">Triangle Perimeter</button>
+            <button class="btn btn-geo" data-template="perimeter rectangle l= w=">Rectangle Perimeter</button>
+            <button class="btn btn-geo" data-template="volume cylinder r= h=">Cylinder Volume</button>
+            
+            <button class="btn btn-geo" data-template="distance (">Distance</button>
+            <button class="btn btn-geo" data-template="midpoint (">Midpoint</button>
+            <button class="btn btn-geo" data-template="slope (">Slope</button>
+            <button class="btn btn-geo" data-template="angle ">Angle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- History Panel -->
+      <div class="history-panel" id="historyPanel">
+        <div class="history-header">
+          <h3>History</h3>
+          <button class="btn-icon" id="clearHistory" title="Clear History">🗑️</button>
+          <button class="btn-icon" id="toggleHistory" title="Toggle History">📋</button>
+        </div>
+        <div class="history-content" id="historyContent">
+          <div class="history-empty">No calculations yet</div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Help Modal -->
+    <div class="modal" id="helpModal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Calculator+ Help</h2>
+          <button class="modal-close" id="closeHelp">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="help-section">
+            <h3>Basic Operations</h3>
+            <p>Standard arithmetic: +, -, ×, ÷, parentheses, decimals</p>
+          </div>
+          <div class="help-section">
+            <h3>Scientific Functions</h3>
+            <p>Trigonometry: sin, cos, tan (in degrees or radians)</p>
+            <p>Logarithms: log (base 10), ln (natural log)</p>
+            <p>Constants: π (pi), e (Euler's number)</p>
+          </div>
+          <div class="help-section">
+            <h3>Algebra</h3>
+            <p>Variables: x, y, z</p>
+            <p>Equations: 2x + 3 = 7</p>
+            <p>Functions: solve, expand, factor, simplify</p>
+          </div>
+          <div class="help-section">
+            <h3>Geometry</h3>
+            <p>Area: circle, triangle, rectangle</p>
+            <p>Volume: sphere, cylinder, cube</p>
+            <p>Distance, midpoint, slope calculations</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Help Button -->
+    <button class="help-btn" id="helpBtn" title="Help">?</button>
+  </div>
+
+  <script src="calculator.js"></script>
+</body>
+</html>
