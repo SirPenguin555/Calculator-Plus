@@ -253,14 +253,25 @@ class AdvancedCalculator {
     // Replace display symbols with JavaScript operators
     expr = expr.replace(/×/g, '*')
                 .replace(/÷/g, '/')
-                .replace(/−/g, '-')
-                .replace(/PI/g, Math.PI)
+                .replace(/−/g, '-');
+
+    // Handle π symbol and implicit multiplication with π
+    expr = expr.replace(/π/g, 'PI')
+                .replace(/(\d)\s*\*\s*PI/g, '$1*PI')  // explicit: 3*PI
+                .replace(/(\d)\s*PI/g, '$1*PI')       // implicit: 3PI
+                .replace(/PI\s*(\d)/g, 'PI*$1')       // reverse: PI3
+                .replace(/PI/g, Math.PI);
+
+    // Handle e constant
+    expr = expr.replace(/(\d)\s*\*\s*E/g, '$1*E')    // explicit: 3*E
+                .replace(/(\d)\s*E/g, '$1*E')         // implicit: 3E
+                .replace(/E\s*(\d)/g, 'E*$1')         // reverse: E3
                 .replace(/E/g, Math.E);
 
-    // Handle implicit multiplication
+    // Handle implicit multiplication with parentheses
     expr = expr.replace(/(\d)\(/g, '$1*(')
                 .replace(/\)(\d)/g, ')*$1')
-                .replace(/(\d)(PI|E)/g, '$1*$2');
+                .replace(/\)\(/g, ')*(');
 
     // Handle special functions
     expr = this.replaceMathFunctions(expr);
