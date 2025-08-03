@@ -21,7 +21,6 @@ class AdvancedCalculator {
     this.historyPanel = document.getElementById('historyPanel');
     this.historyContent = document.getElementById('historyContent');
     this.clearHistoryBtn = document.getElementById('clearHistory');
-    this.toggleHistoryBtn = document.getElementById('toggleHistory');
     this.helpModal = document.getElementById('helpModal');
     this.helpBtn = document.getElementById('helpBtn');
     this.closeHelpBtn = document.getElementById('closeHelp');
@@ -47,12 +46,16 @@ class AdvancedCalculator {
       }
     });
 
+    // Auto-transform pi to π symbol
+    this.textInput.addEventListener('input', (e) => {
+      this.transformMathSymbols();
+    });
+
     // Calculate button
     this.calculateBtn.addEventListener('click', () => this.calculateFromInput());
 
     // History controls
     this.clearHistoryBtn.addEventListener('click', () => this.clearHistory());
-    this.toggleHistoryBtn.addEventListener('click', () => this.toggleHistory());
 
     // Help modal
     this.helpBtn.addEventListener('click', () => this.showHelp());
@@ -166,6 +169,35 @@ class AdvancedCalculator {
       this.currentExpression = expression;
       this.calculate();
       this.textInput.value = '';
+    }
+  }
+
+  transformMathSymbols() {
+    const input = this.textInput;
+    const cursorPosition = input.selectionStart;
+    let value = input.value;
+    
+    // Store original length to calculate cursor offset
+    const originalLength = value.length;
+    
+    // Transform pi to π symbol (case insensitive, whole word)
+    value = value.replace(/\bpi\b/gi, 'π');
+    
+    // You can add more transformations here:
+    // value = value.replace(/\btheta\b/gi, 'θ');
+    // value = value.replace(/\balpha\b/gi, 'α');
+    // value = value.replace(/\bbeta\b/gi, 'β');
+    // value = value.replace(/\bgamma\b/gi, 'γ');
+    // value = value.replace(/\bdelta\b/gi, 'δ');
+    
+    // Update input value if it changed
+    if (value !== input.value) {
+      input.value = value;
+      
+      // Adjust cursor position based on length difference
+      const lengthDiff = value.length - originalLength;
+      const newPosition = Math.max(0, cursorPosition + lengthDiff);
+      input.setSelectionRange(newPosition, newPosition);
     }
   }
 
@@ -571,9 +603,6 @@ class AdvancedCalculator {
     this.updateHistoryDisplay();
   }
 
-  toggleHistory() {
-    this.historyPanel.classList.toggle('collapsed');
-  }
 
   showHelp() {
     this.helpModal.style.display = 'flex';
